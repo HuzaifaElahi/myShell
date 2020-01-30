@@ -51,7 +51,11 @@ int script(FILE *filePtr){
 		}
 
 		errCode = parse(line);
-		//TODO: CLOSE ONLY SCRIPT ON QUIT, NOT TERMINAL
+
+		// If quit encountered, exit only script, not
+		if(errCode == 2){
+			errCode = -1;
+		}
 		if(errCode != 0){
 			free(line);
 			fclose(filePtr);
@@ -83,6 +87,7 @@ int run(char *file){
 	}
 
 	if(recursionCount > 10000){
+		recursionCount = 0;
 		printf("Script contained recursion!\n");
 		return -1;
 	}
